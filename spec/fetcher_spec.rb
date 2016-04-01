@@ -31,4 +31,10 @@ describe Screencap::Fetcher do
     screenshot = Screencap::Fetcher.new('http://google.com?1=2&3=4').fetch(:output => TMP_DIRECTORY + 'ampersand.jpg', :width => 800)
     FastImage.size(screenshot)[0].should == 800
   end
+
+  it 'should support basic auth' do
+    url = 'http://www.httpwatch.com/httpgallery/authentication/authenticatedimage/default.aspx?' + "0.#{rand(99999999)}" # hosted example requires fresh seed
+    screenshot = Screencap::Fetcher.new(url).fetch(:output => TMP_DIRECTORY + 'httpwatch.jpg', :auth => 'httpwatch:screencap', :width => 300, height: 60)
+    FastImage.size(screenshot)[0].should == 300
+  end
 end
